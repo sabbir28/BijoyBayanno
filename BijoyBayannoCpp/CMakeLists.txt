@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(BijoyBayanno LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(BijoyBayanno WIN32
   src/main.cpp
@@ -16,8 +17,15 @@ add_executable(BijoyBayanno WIN32
   src/app_state.cpp
 )
 
-target_sources(BijoyBayanno PRIVATE src/app.rc)
-enable_language(RC)
+option(BIJOY_INCLUDE_RESOURCES "Compile Win32 resource file (app.rc)" ON)
+if(BIJOY_INCLUDE_RESOURCES)
+  if(CMAKE_RC_COMPILER)
+    enable_language(RC)
+    target_sources(BijoyBayanno PRIVATE src/app.rc)
+  else()
+    message(WARNING "Resource compiler not found. Building without src/app.rc")
+  endif()
+endif()
 
 target_compile_definitions(BijoyBayanno PRIVATE UNICODE _UNICODE)
 target_link_libraries(BijoyBayanno PRIVATE comctl32)
