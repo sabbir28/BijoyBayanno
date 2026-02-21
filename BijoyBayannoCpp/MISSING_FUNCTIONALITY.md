@@ -47,7 +47,7 @@ This document lists features and behaviors of the original C# Bijoy Bayanno appl
 
 ## 4. Registration and Activation
 
-| Feature | C# | C# | Notes |
+| Feature | C# | C++ | Notes |
 |--------|----|-----|------|
 | **Machine ID** | WMI Win32_PhysicalMedia (serial etc.) | GetComputerNameW | C++ uses computer name only; easier to replicate across machines. |
 | **Encrypt** | Full C# obfuscation (reverse, LCase, digit mix) | Simplified version | C++ encrypt is a placeholder; same password string works but algorithm differs. |

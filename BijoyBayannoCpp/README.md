@@ -38,6 +38,20 @@ Native Win32 C/C++ port of the Bijoy Bayanno keyboard layout application (origin
 
 ## Building
 
+### One-command build script (Windows)
+
+```batch
+cd BijoyBayannoCpp
+build.bat
+```
+
+Optional arguments:
+
+```batch
+build.bat [Configuration] [Platform] [Generator]
+build.bat Debug Win32 "Visual Studio 17 2022"
+```
+
 ### Visual Studio (Win32)
 
 ```batch
@@ -59,6 +73,9 @@ msbuild BijoyBayanno.sln /p:Configuration=Release /p:Platform=Win32
 ```
 
 ### MinGW
+
+If your environment does not provide a resource compiler (`rc.exe`/`windres`), configure CMake with `-DBIJOY_INCLUDE_RESOURCES=OFF`.
+
 
 ```batch
 cd BijoyBayannoCpp
