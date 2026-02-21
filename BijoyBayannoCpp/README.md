@@ -13,7 +13,8 @@ Native Win32 C/C++ port of the Bijoy Bayanno keyboard layout application (origin
 5. [Usage](#usage)
 6. [Configuration & Data](#configuration--data)
 7. [API Overview](#api-overview)
-8. [Missing Functionality vs C#](#missing-functionality-vs-c)
+8. [Replatforming Strategy](#replatforming-strategy)
+9. [Missing Functionality vs C#](#missing-functionality-vs-c)
 
 ---
 
@@ -76,6 +77,7 @@ BijoyBayannoCpp/
 ├── CMakeLists.txt          # CMake project and executable
 ├── README.md                # This file
 ├── DOCUMENTATION.md         # Detailed module and design notes
+├── REPLATFORMING_STRATEGY.md# Migration rationale and architecture direction
 ├── MISSING_FUNCTIONALITY.md # Gap list vs original C# app
 └── src/
     ├── resource.h           # Resource IDs (dialogs, controls, menu)
@@ -132,6 +134,19 @@ BijoyBayannoCpp/
 | **find_layouts** | `GetAppDirectory()`, `FindLayouts(layouts, appDir)` to discover and load all layout XMLs. |
 | **dlg_registration** | Modal registration dialog: machine ID display, 4 code fields, OK/Cancel; validates against stored password and registry. |
 | **dlg_main**     | Creates the main window (hidden by default), tray icon, and popup menu with layout items and Show/Exit. |
+
+---
+
+## Replatforming Strategy
+
+This repository is part of a deliberate migration from an abandoned C# desktop stack to a maintainable native engine:
+
+- Recover legacy behavior through decompilation and analysis of the original binaries.
+- Extract core typing algorithms (key mapping, encoding, shortcut/IME behavior).
+- Re-implement those rules in deterministic C/C++ modules decoupled from UI concerns.
+- Keep Win32-specific integration at the platform boundary so future UIs/bindings can reuse the same engine.
+
+For full migration rationale and phased architecture, see **[REPLATFORMING_STRATEGY.md](REPLATFORMING_STRATEGY.md)**.
 
 ---
 
