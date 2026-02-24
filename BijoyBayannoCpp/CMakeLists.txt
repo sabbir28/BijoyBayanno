@@ -18,10 +18,12 @@ add_executable(BijoyBayanno WIN32
   src/core/keyboard_hook_service.cpp
   src/core/layout.cpp
   src/core/layout_discovery.cpp
+  src/core/startup_options.cpp
   src/core/window_layout_binding.cpp
   src/platform/windows/main_window.cpp
   src/platform/windows/native_input.cpp
   src/platform/windows/registration_dialog.cpp
+  src/platform/windows/splash_screen.cpp
 )
 
 option(BIJOY_INCLUDE_RESOURCES "Compile Win32 resource file (app.rc)" ON)
