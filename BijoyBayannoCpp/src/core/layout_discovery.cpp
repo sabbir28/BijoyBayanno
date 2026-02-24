@@ -4,7 +4,9 @@
 #include <shlwapi.h>
 #include <windows.h>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "shlwapi.lib")
+#endif
 
 namespace bijoy::core {
 
