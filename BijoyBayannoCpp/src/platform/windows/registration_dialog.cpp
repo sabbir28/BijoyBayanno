@@ -7,7 +7,9 @@
 #include <string>
 #include <windows.h>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "comctl32.lib")
+#endif
 
 namespace bijoy::platform::windows {
 
