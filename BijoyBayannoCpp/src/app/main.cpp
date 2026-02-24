@@ -1,10 +1,13 @@
 #include "core/app_state.h"
 #include "core/keyboard_hook_service.h"
 #include "core/layout_discovery.h"
+#include "core/startup_options.h"
 #include "platform/windows/main_window.h"
 #include "platform/windows/registration_dialog.h"
+#include "platform/windows/splash_screen.h"
 
 #include <commctrl.h>
+#include <memory>
 #include <windows.h>
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
@@ -34,8 +37,32 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
   ShowWindow(mainWindow, SW_HIDE);
 
   HWND splashWindow = nullptr;
-  bijoy::platform::windows::ShowRegistrationDialog(mainWindow, splashWindow);
-  ShowWindow(mainWindow, SW_SHOW);
+  const int registrationResult = bijoy::platform::windows::ShowRegistrationDialog(mainWindow, splashWindow);
+  if (registrationResult == 0) {
+    DestroyWindow(mainWindow);
+    bijoy::core::UninstallKeyboardHook();
+    return 0;
+  }
+
+  auto startupOptions = std::make_shared<bijoy::core::StartupOptions>();
+  splashWindow = bijoy::platform::windows::ShowSplashScreen(
+      hInstance,
+      mainWindow,
+      [startupOptions]() {
+        *startupOptions = bijoy::core::LoadStartupOptions();
+        if (startupOptions->defaultLayout >= 0 && startupOptions->defaultLayout < bijoy::core::GetLayoutCount()) {
+          bijoy::core::SetCurrentLayout(startupOptions->defaultLayout);
+        }
+      },
+      [mainWindow, startupOptions]() {
+        const bool shouldStartHidden = startupOptions->applicationMode == 3 ||
+                                       (startupOptions->applicationMode != 2 && startupOptions->trayMode);
+        ShowWindow(mainWindow, shouldStartHidden ? SW_HIDE : SW_SHOW);
+      });
+
+  if (!splashWindow) {
+    ShowWindow(mainWindow, SW_SHOW);
+  }
 
   MSG msg;
   while (GetMessage(&msg, nullptr, 0, 0)) {
