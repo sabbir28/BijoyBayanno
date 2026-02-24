@@ -10,6 +10,12 @@
 #include <memory>
 #include <windows.h>
 
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow);
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR, int nCmdShow) {
+  return wWinMain(hInstance, hPrevInstance, GetCommandLineW(), nCmdShow);
+}
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
   (void)hPrevInstance;
   (void)lpCmdLine;
