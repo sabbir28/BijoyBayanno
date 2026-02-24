@@ -1,4 +1,4 @@
-#include "resource.h"
+#include "platform/windows/resource.h"
 
 // Add app.ico to this folder and uncomment next line for custom icon:
 // IDI_APP ICON "app.ico"

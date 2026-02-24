@@ -1,8 +1,9 @@
 #pragma once
 
-#include <string>
 #include <map>
-#include <vector>
+#include <string>
+
+namespace bijoy::core {
 
 struct LayoutShortcut {
   bool alt = false;
@@ -31,3 +32,5 @@ struct Layout {
   bool loadFromFile(const wchar_t* filePath);
   bool updateFromFile();
 };
+
+} // namespace bijoy::core

@@ -3,7 +3,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-namespace native {
+namespace bijoy::platform::windows {
 
 enum InputType { INPUT_MOUSE = 0, INPUT_KEYBOARD = 1, INPUT_HARDWARE = 2 };
 
@@ -49,7 +49,7 @@ struct INPUT {
 #pragma pack(pop)
 
 UINT SendInput(UINT nInputs, INPUT* pInputs, int cbSize);
-void DoKeyBoard(DWORD flags, int scanCode);
-void DoKeyBoardVk(DWORD flags, WORD vk);
+void DoKeyboard(DWORD flags, int scanCode);
+void DoKeyboardVk(DWORD flags, WORD vk);
 
-} // namespace native
+} // namespace bijoy::platform::windows
