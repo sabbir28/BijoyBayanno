@@ -8,8 +8,14 @@
 #include <shellapi.h>
 #include <windows.h>
 
+#ifdef _MSC_VER
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(lib, "shell32.lib")
+#endif
+
+#ifndef TPM_NONBLOCKING
+#define TPM_NONBLOCKING 0x0000L
+#endif
 
 namespace bijoy::platform::windows {
 
