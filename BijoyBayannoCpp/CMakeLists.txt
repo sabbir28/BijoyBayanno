@@ -24,6 +24,7 @@ add_executable(BijoyBayanno WIN32
   src/platform/windows/native_input.cpp
   src/platform/windows/registration_dialog.cpp
   src/platform/windows/splash_screen.cpp
+  src/utils/system_utils.cpp
 )
 
 option(BIJOY_INCLUDE_RESOURCES "Compile Win32 resource file (app.rc)" ON)
