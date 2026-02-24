@@ -13,19 +13,19 @@ file(MAKE_DIRECTORY "${BIJOY_DATA_DIR}")
 file(MAKE_DIRECTORY "${BIJOY_BUILD_ROOT}/temp")
 
 add_executable(BijoyBayanno WIN32
-  src/app/main.cpp
-  src/core/app_state.cpp
-  src/core/keyboard_hook_service.cpp
-  src/core/layout.cpp
-  src/core/layout_discovery.cpp
-  src/core/startup_options.cpp
-  src/core/window_layout_binding.cpp
-  src/platform/windows/main_window.cpp
-  src/platform/windows/native_input.cpp
-  src/platform/windows/registration_dialog.cpp
-  src/platform/windows/splash_screen.cpp
-  src/utils/system_utils.cpp
-)
+        src/app/main.cpp
+        src/core/app_state.cpp
+        src/core/keyboard_hook_service.cpp
+        src/core/layout.cpp
+        src/core/layout_discovery.cpp
+        src/core/startup_options.cpp
+        src/core/window_layout_binding.cpp
+        src/platform/windows/main_window.cpp
+        src/platform/windows/native_input.cpp
+        src/platform/windows/registration_dialog.cpp
+        src/platform/windows/splash_screen.cpp
+        src/utils/system_utils.cpp
+        )
 
 option(BIJOY_INCLUDE_RESOURCES "Compile Win32 resource file (app.rc)" ON)
 if(BIJOY_INCLUDE_RESOURCES)
@@ -38,15 +38,47 @@ if(BIJOY_INCLUDE_RESOURCES)
 endif()
 
 target_include_directories(BijoyBayanno PRIVATE include)
-target_compile_definitions(BijoyBayanno PRIVATE UNICODE _UNICODE BIJOY_DATA_DIR=L"${BIJOY_DATA_DIR}/")
+target_compile_definitions(
+        BijoyBayanno
+        PRIVATE
+        UNICODE
+        _UNICODE
+        BIJOY_DATA_DIR=L"${BIJOY_DATA_DIR}/"
+)
+
 target_link_libraries(BijoyBayanno PRIVATE comctl32 shell32 shlwapi)
 
 set_target_properties(BijoyBayanno PROPERTIES
-  RUNTIME_OUTPUT_DIRECTORY "${BIJOY_RUNTIME_OUTPUT_DIR}"
-)
+        RUNTIME_OUTPUT_DIRECTORY "${BIJOY_RUNTIME_OUTPUT_DIR}"
+        )
 
 if(MSVC)
   target_compile_options(BijoyBayanno PRIVATE /W4)
 else()
   target_compile_options(BijoyBayanno PRIVATE -Wall -Wextra)
+endif()
+
+# ------------------------------------------------------------------
+# MinGW runtime DLL copy fix (libstdc++-6.dll, libgcc, winpthread)
+# ------------------------------------------------------------------
+if(MINGW)
+  get_filename_component(MINGW_BIN_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+
+  set(MINGW_DLLS
+          libstdc++-6.dll
+          libgcc_s_seh-1.dll
+          libgcc_s_dw2-1.dll
+          libwinpthread-1.dll
+          )
+
+  foreach(DLL ${MINGW_DLLS})
+    if(EXISTS "${MINGW_BIN_DIR}/${DLL}")
+      add_custom_command(
+              TARGET BijoyBayanno POST_BUILD
+              COMMAND ${CMAKE_COMMAND} -E copy_if_different
+              "${MINGW_BIN_DIR}/${DLL}"
+              "$<TARGET_FILE_DIR:BijoyBayanno>"
+      )
+    endif()
+  endforeach()
 endif()

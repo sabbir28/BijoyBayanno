@@ -8,7 +8,7 @@ This document lists features and behaviors of the original C# Bijoy Bayanno appl
 
 | Feature | C# | C++ | Notes |
 |--------|----|-----|------|
-| **Splash screen** | frmSplash: fade-in, timer, then load options and show frmMain | Not implemented | C++ goes straight from registration to main/tray. No splash window. |
+| **Splash screen** | frmSplash: fade-in, timer, then load options and show frmMain | Smoll modification has been done | C++ goes straight from registration to main/tray. No splash window. |
 | **Main form (visible)** | Floating bar with combo (layout list), picIco, buttons (Options, Layout Editor, Minimize, Close), tooltips | Only tray + popup menu | No visible “main window” bar. No combo, no Options/Editor buttons. |
 | **Fade in/out** | FadeTimer: opacity 0↔1, then hide/show tray icon | Not implemented | No opacity animation. |
 | **Options dialog** | frmOptions: tabs (e.g. General, Layout Activation Mode), registry load/save, LAM checkbox | Not implemented | No settings UI. |
@@ -72,7 +72,7 @@ This document lists features and behaviors of the original C# Bijoy Bayanno appl
 
 ## 6. Summary Checklist
 
-- [ ] Splash screen and startup sequence (fade, load options, then show main).
+- [done] Splash screen and startup sequence (fade, load options, then show main).
 - [ ] Visible main form (floating bar with layout combo, icon, buttons).
 - [ ] Options dialog and persistence (ApplicationMode, TrayMode, DefaultLayout, Position, LAM).
 - [ ] Layout Editor (frmLayoutCreator).
