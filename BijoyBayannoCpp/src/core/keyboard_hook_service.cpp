@@ -59,10 +59,10 @@ bool ProcessHookedEvent(const KBDLLHOOKSTRUCT_LOCAL* hs) {
       if (!output.empty()) {
         for (wchar_t c : output) {
           bijoy::platform::windows::DoKeyboard(
-              bijoy::platform::windows::KEYEVENTF_UNICODE,
+              KEYEVENTF_UNICODE,
               static_cast<int>(c));
           bijoy::platform::windows::DoKeyboard(
-              bijoy::platform::windows::KEYEVENTF_KEYUP | bijoy::platform::windows::KEYEVENTF_UNICODE,
+              KEYEVENTF_KEYUP | KEYEVENTF_UNICODE,
               static_cast<int>(c));
         }
         return true;

@@ -2,10 +2,6 @@
 
 namespace bijoy::platform::windows {
 
-UINT SendInput(UINT nInputs, INPUT* pInputs, int cbSize) {
-  return ::SendInput(nInputs, pInputs, cbSize);
-}
-
 void DoKeyboard(DWORD flags, int scanCode) {
   INPUT input = {};
   input.type = INPUT_KEYBOARD;
