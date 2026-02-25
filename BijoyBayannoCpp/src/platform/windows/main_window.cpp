@@ -470,10 +470,10 @@ HWND CreateMainWindow(HINSTANCE hInstance) {
   RegisterClassExW(&windowClass);
 
   g_mainWindow = CreateWindowExW(
-      WS_EX_TOOLWINDOW,
+      WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
       windowClass.lpszClassName,
       L"Bijoy Bayanno",
-      WS_POPUPWINDOW | WS_CAPTION,
+      WS_POPUPWINDOW,
       CW_USEDEFAULT,
       80,
       440,
