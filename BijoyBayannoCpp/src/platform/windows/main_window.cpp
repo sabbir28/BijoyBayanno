@@ -37,31 +37,70 @@ NOTIFYICONDATAW g_notifyIcon = {};
 HMENU g_trayMenu = nullptr;
 HICON g_defaultIcon = nullptr;
 HICON g_layoutDisplayIcon = nullptr;
+HICON g_windowClassIconLarge = nullptr;
+HICON g_windowClassIconSmall = nullptr;
+bool g_ownsDefaultIcon = false;
+
+std::wstring BuildPath(const std::wstring& base, const wchar_t* relative) {
+  std::wstring path = base;
+  path += relative;
+  return path;
+}
+
+std::wstring BuildPath(const std::wstring& base, const std::wstring& relative) {
+  std::wstring path = base;
+  path += relative;
+  return path;
+}
+
+HICON LoadIconFromPath(const std::wstring& path, int width, int height) {
+  return static_cast<HICON>(LoadImageW(
+      nullptr,
+      path.c_str(),
+      IMAGE_ICON,
+      width,
+      height,
+      LR_LOADFROMFILE));
+}
+
+HICON LoadAppIconFromData(int width, int height) {
+  const std::wstring appDir = bijoy::core::GetAppDirectory();
+
+  const std::wstring binIconPath = BuildPath(appDir, L"Bijoy.ico");
+  if (HICON icon = LoadIconFromPath(binIconPath, width, height)) {
+    return icon;
+  }
+
+  const std::wstring dataIconPath = BuildPath(appDir, L"..\\data\\Bijoy.ico");
+  return LoadIconFromPath(dataIconPath, width, height);
+}
 
 HICON LoadLayoutIcon(const bijoy::core::Layout* layout) {
   if (!layout || layout->iconName.empty()) {
     return nullptr;
   }
 
-  std::wstring iconPath = bijoy::core::GetAppDirectory();
-  iconPath += L"\\Icons\\";
-  iconPath += layout->iconName;
-
+  std::wstring iconName = layout->iconName;
   const bool hasIcoExt =
-      iconPath.size() > 4 &&
-      _wcsicmp(iconPath.c_str() + iconPath.size() - 4, L".ico") == 0;
-
+      iconName.size() > 4 &&
+      _wcsicmp(iconName.c_str() + iconName.size() - 4, L".ico") == 0;
   if (!hasIcoExt) {
-    iconPath += L".ico";
+    iconName += L".ico";
   }
 
-  return static_cast<HICON>(LoadImageW(
-      nullptr,
-      iconPath.c_str(),
-      IMAGE_ICON,
-      16,
-      16,
-      LR_LOADFROMFILE));
+  const std::wstring appDir = bijoy::core::GetAppDirectory();
+  const std::wstring iconPaths[] = {
+      BuildPath(appDir, std::wstring(L"Icons\\") + iconName),
+      BuildPath(appDir, std::wstring(L"..\\data\\Icons\\") + iconName),
+  };
+
+  for (const auto& iconPath : iconPaths) {
+    if (HICON icon = LoadIconFromPath(iconPath, 16, 16)) {
+      return icon;
+    }
+  }
+
+  return nullptr;
 }
 
 void SetMainWindowVisible(bool visible) {
@@ -87,7 +126,7 @@ void SelectLayout(int index) {
 
   ReleaseLayoutDisplayIcon();
   HICON icon = nullptr;
-  if (const auto* layout = bijoy::core::GetLayoutByIndex(index)) {
+  if (auto* layout = bijoy::core::GetLayoutByIndex(index)) {
     icon = LoadLayoutIcon(layout);
     bijoy::core::AddWindowLayoutBinding(GetForegroundWindow(), layout);
   }
@@ -192,7 +231,11 @@ void OnTrayCommand(UINT id) {
 LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
   switch (msg) {
     case WM_CREATE: {
-      g_defaultIcon = LoadIconW(nullptr, IDI_APPLICATION);
+      g_defaultIcon = LoadAppIconFromData(16, 16);
+      g_ownsDefaultIcon = g_defaultIcon != nullptr;
+      if (!g_defaultIcon) {
+        g_defaultIcon = LoadIconW(nullptr, IDI_APPLICATION);
+      }
       g_layoutDisplayIcon = g_defaultIcon;
 
       g_layoutIcon = CreateWindowExW(
@@ -385,6 +428,19 @@ LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         g_trayMenu = nullptr;
       }
       ReleaseLayoutDisplayIcon();
+      if (g_ownsDefaultIcon && g_defaultIcon) {
+        DestroyIcon(g_defaultIcon);
+      }
+      g_defaultIcon = nullptr;
+      g_ownsDefaultIcon = false;
+      if (g_windowClassIconLarge) {
+        DestroyIcon(g_windowClassIconLarge);
+        g_windowClassIconLarge = nullptr;
+      }
+      if (g_windowClassIconSmall) {
+        DestroyIcon(g_windowClassIconSmall);
+        g_windowClassIconSmall = nullptr;
+      }
       PostQuitMessage(0);
       return 0;
 
@@ -398,11 +454,16 @@ LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 } // namespace
 
 HWND CreateMainWindow(HINSTANCE hInstance) {
+  g_windowClassIconLarge = LoadAppIconFromData(32, 32);
+  g_windowClassIconSmall = LoadAppIconFromData(16, 16);
+
   WNDCLASSEXW windowClass = {};
   windowClass.cbSize = sizeof(windowClass);
   windowClass.lpfnWndProc = MainWindowProc;
   windowClass.hInstance = hInstance;
   windowClass.lpszClassName = L"BijoyBayannoMain";
+  windowClass.hIcon = g_windowClassIconLarge;
+  windowClass.hIconSm = g_windowClassIconSmall;
   windowClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
   windowClass.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_BTNFACE + 1);
 
