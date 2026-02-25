@@ -46,7 +46,7 @@ target_compile_definitions(
         BIJOY_DATA_DIR=L"${BIJOY_DATA_DIR}/"
 )
 
-target_link_libraries(BijoyBayanno PRIVATE comctl32 shell32 shlwapi)
+target_link_libraries(BijoyBayanno PRIVATE comctl32 shell32 shlwapi msimg32)
 
 set_target_properties(BijoyBayanno PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY "${BIJOY_RUNTIME_OUTPUT_DIR}"

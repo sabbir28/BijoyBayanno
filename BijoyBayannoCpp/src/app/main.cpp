@@ -106,9 +106,7 @@ int WINAPI wWinMain(
     // ---------------------------------------------------------------------------
     HWND splashWindow = nullptr;
     const int registrationResult =
-            bijoy::platform::windows::ShowRegistrationDialog(
-                    mainWindow,
-                    splashWindow);
+            bijoy::platform::windows::ShowRegistrationDialog(mainWindow);
 
     // Registration cancelled or failed — clean shutdown
     if (registrationResult == 0) {

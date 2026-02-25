@@ -76,11 +76,17 @@ namespace bijoy::utils {
 // Retrieves the local machine name
 // Used as a lightweight machine identifier
 // -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
+// Retrieves the current Windows user name
+// Lightweight, fast, no registry access
+// -----------------------------------------------------------------------------
     std::wstring GetMachineId() {
         wchar_t buffer[256] = {};
-        DWORD buffer_size = static_cast<DWORD>(std::size(buffer));
+        DWORD size = static_cast<DWORD>(std::size(buffer));
 
-        return GetComputerNameW(buffer, &buffer_size) ? buffer : L"UNKNOWN_PC";
+        return GetUserNameW(buffer, &size)
+               ? buffer
+               : L"UNKNOWN_USER";
     }
 
 // -----------------------------------------------------------------------------

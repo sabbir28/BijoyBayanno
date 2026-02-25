@@ -4,6 +4,6 @@
 
 namespace bijoy::platform::windows {
 
-int ShowRegistrationDialog(HWND hParent, HWND hwndSplash);
+int ShowRegistrationDialog(HWND hParent);
 
 } // namespace bijoy::platform::windows
