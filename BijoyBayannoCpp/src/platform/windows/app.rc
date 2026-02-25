@@ -2,8 +2,7 @@
 
 #include "../../../include/platform/windows/resource.h"
 
-// Add app.ico to this folder and uncomment next line for custom icon:
-// IDI_APP ICON "app.ico"
+IDI_APP ICON "..\..\build\data\Bijoy.ico"
 
 IDD_REGISTRATION DIALOG 0, 0, 320, 240
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
