@@ -4,6 +4,24 @@ To compile this project on your computer, you need the following.
 
 ---
 
+
+## Quick Build Entry Points (from repo root)
+
+Use the root CMake build system:
+
+```bat
+cmake --preset windows-default
+cmake --build --preset build-csharp
+```
+
+To build both C++ and C# from root:
+
+```bat
+cmake --build --preset build-all
+```
+
+---
+
 ## 1. **Visual Studio** (recommended)
 
 - **Visual Studio 2022** or **Visual Studio 2019** (Community edition is free).

@@ -38,6 +38,17 @@ Native Win32 C/C++ port of the Bijoy Bayanno keyboard layout application (origin
 
 ## Building
 
+### From repository root
+
+You can use the root CMake build system to build only the C++ part:
+
+```batch
+cmake --preset windows-default
+cmake --build --preset build-cpp
+```
+
+### Inside `BijoyBayannoCpp/`
+
 ### One-command build script (Windows)
 
 ```batch
