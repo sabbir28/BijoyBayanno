@@ -4,6 +4,9 @@ project(BijoyBayanno LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+option(BIJOY_BUILD_LAYOUT_EDITOR "Build the LayoutEditor Win32 prototype" ON)
+
 set(BIJOY_BUILD_ROOT "${CMAKE_SOURCE_DIR}/build")
 set(BIJOY_RUNTIME_OUTPUT_DIR "${BIJOY_BUILD_ROOT}/bin")
 set(BIJOY_DATA_DIR "${BIJOY_BUILD_ROOT}/data")
@@ -81,4 +84,16 @@ if(MINGW)
       )
     endif()
   endforeach()
+endif()
+
+if(WIN32 AND BIJOY_BUILD_LAYOUT_EDITOR)
+  add_subdirectory(LayoutEditor)
+endif()
+
+add_custom_target(bijoy_cpp_all
+        DEPENDS BijoyBayanno
+)
+
+if(TARGET LayoutEditor)
+  add_dependencies(bijoy_cpp_all LayoutEditor)
 endif()

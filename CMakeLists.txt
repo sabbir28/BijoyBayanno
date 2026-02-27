@@ -9,7 +9,7 @@ if(BIJOY_ENABLE_CPP)
   add_subdirectory(BijoyBayannoCpp)
 
   add_custom_target(build_cpp
-    DEPENDS BijoyBayanno
+    DEPENDS bijoy_cpp_all
     COMMENT "Build C++ target (BijoyBayannoCpp/BijoyBayanno)"
   )
 endif()
