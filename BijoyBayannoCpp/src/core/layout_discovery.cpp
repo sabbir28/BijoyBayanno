@@ -45,9 +45,20 @@ namespace bijoy::core {
     } // namespace
 
     bool FindLayouts(std::vector<Layout>& layouts, const std::wstring& appDir) {
-        const std::wstring layoutDir = appDir + L"Layouts\\";
+        const std::wstring layoutDirs[] = {
+            appDir + L"Layouts\\",
+            appDir + L"..\\data\\layout\\",
+            appDir + L"..\\data\\Layouts\\"
+        };
+
         std::vector<std::wstring> files;
-        FindXmlRecursive(layoutDir, files);
+        for (const auto& layoutDir : layoutDirs) {
+            FindXmlRecursive(layoutDir, files);
+            if (!files.empty()) {
+                break;
+            }
+        }
+
         if (files.empty()) {
             return false;
         }
