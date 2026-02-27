@@ -1,0 +1,52 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-default",
+      "displayName": "Windows default (C++ + optional C#)",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/out/build/windows-default",
+      "architecture": "Win32",
+      "cacheVariables": {
+        "BIJOY_ENABLE_CPP": "ON",
+        "BIJOY_ENABLE_CSHARP": "ON"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "windows-cpp-only",
+      "displayName": "Windows C++ only",
+      "inherits": "windows-default",
+      "binaryDir": "${sourceDir}/out/build/windows-cpp-only",
+      "cacheVariables": {
+        "BIJOY_ENABLE_CSHARP": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-cpp",
+      "configurePreset": "windows-default",
+      "targets": ["build_cpp"]
+    },
+    {
+      "name": "build-csharp",
+      "configurePreset": "windows-default",
+      "targets": ["build_csharp"]
+    },
+    {
+      "name": "build-all",
+      "configurePreset": "windows-default",
+      "targets": ["build_all"]
+    }
+  ]
+}
