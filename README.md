@@ -16,6 +16,7 @@ This repo now has a **CMake-based top-level build system** so you can drive both
 - `BijoyBayanno.sln` - Solution for the C# app (built through `build_csharp` target)
 - `BijoyBayanno.exe/` - C# WinForms project
 - `BijoyBayannoCpp/` - C++ implementation with CMake
+- `BijoyBayannoCpp/LayoutEditor/` - Win32 layout editor prototype
 - `BUILD_REQUIREMENTS.md` - C# build prerequisites
 
 ---
@@ -44,7 +45,7 @@ cmake --build --preset build-all
 
 The root CMake defines separate targets:
 
-- `build_cpp` → builds the C++ target from `BijoyBayannoCpp/`
+- `build_cpp` → builds the C++ targets from `BijoyBayannoCpp/` (main app + LayoutEditor prototype on Windows)
 - `build_csharp` → builds `BijoyBayanno.sln` with MSBuild (Windows only)
 - `build_all` → builds both
 

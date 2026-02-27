@@ -9,6 +9,10 @@ add_executable(LayoutEditor WIN32
         src/LayoutEditor.cpp
         )
 
+target_include_directories(LayoutEditor PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        )
+
 target_compile_definitions(LayoutEditor PRIVATE
         UNICODE
         _UNICODE

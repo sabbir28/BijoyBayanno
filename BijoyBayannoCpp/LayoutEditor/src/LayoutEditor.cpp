@@ -2,52 +2,55 @@
 #define UNICODE
 #endif
 
-#include "include/LayoutEditor.h"
+#include "LayoutEditor.h"
 #include <commctrl.h>
 
 HINSTANCE g_hInstance = nullptr;
 
 int WINAPI wWinMain(
         HINSTANCE hInstance,
-HINSTANCE,
-PWSTR,
-int nCmdShow
+        HINSTANCE,
+        PWSTR,
+        int nCmdShow
 ) {
-g_hInstance = hInstance;
+    g_hInstance = hInstance;
 
-INITCOMMONCONTROLSEX icc{
-        sizeof(icc),
-        ICC_WIN95_CLASSES
-};
-InitCommonControlsEx(&icc);
+    INITCOMMONCONTROLSEX icc{
+            sizeof(icc),
+            ICC_WIN95_CLASSES
+    };
+    InitCommonControlsEx(&icc);
 
-WNDCLASSW wc{};
-wc.lpfnWndProc   = MainWndProc;
-wc.hInstance     = hInstance;
-wc.lpszClassName = L"LayoutEditorWindow";
-wc.hCursor       = LoadCursorW(nullptr, IDC_ARROW);
-wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_BTNFACE + 1);
+    WNDCLASSW wc{};
+    wc.lpfnWndProc = MainWndProc;
+    wc.hInstance = hInstance;
+    wc.lpszClassName = L"LayoutEditorWindow";
+    wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
+    wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_BTNFACE + 1);
 
-RegisterClassW(&wc);
+    RegisterClassW(&wc);
 
-HWND hwnd = CreateWindowExW(
-        0,
-        wc.lpszClassName,
-        L"Keyboard Layout Editor",
-        WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-        CW_USEDEFAULT, CW_USEDEFAULT,
-        APP_WIDTH, APP_HEIGHT,
-        nullptr, nullptr,
-        hInstance,
-        nullptr
-);
+    HWND hwnd = CreateWindowExW(
+            0,
+            wc.lpszClassName,
+            L"Keyboard Layout Editor",
+            WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+            CW_USEDEFAULT, CW_USEDEFAULT,
+            APP_WIDTH, APP_HEIGHT,
+            nullptr, nullptr,
+            hInstance,
+            nullptr
+    );
 
-MSG msg{};
-while (GetMessageW(&msg, nullptr, 0, 0)) {
-TranslateMessage(&msg);
-DispatchMessageW(&msg);
-}
-return static_cast<int>(msg.wParam);
+    ShowWindow(hwnd, nCmdShow);
+    UpdateWindow(hwnd);
+
+    MSG msg{};
+    while (GetMessageW(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessageW(&msg);
+    }
+    return static_cast<int>(msg.wParam);
 }
 
 void CreateMainControls(HWND hwnd) {
@@ -124,29 +127,29 @@ void CreateMainControls(HWND hwnd) {
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM) {
 switch (msg) {
-case WM_CREATE:
-CreateMainControls(hwnd);
-return 0;
+    case WM_CREATE:
+        CreateMainControls(hwnd);
+        return 0;
 
-case WM_COMMAND:
-switch (LOWORD(wParam)) {
-case IDC_BTN_NEW:
-MessageBoxW(hwnd, L"New layout initialized.", L"Info", MB_OK);
-return 0;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDC_BTN_NEW:
+            MessageBoxW(hwnd, L"New layout initialized.", L"Info", MB_OK);
+            return 0;
 
-case IDC_BTN_SAVE:
-MessageBoxW(hwnd, L"Persist layer not wired yet.", L"Info", MB_OK);
-return 0;
+        case IDC_BTN_SAVE:
+            MessageBoxW(hwnd, L"Persist layer not wired yet.", L"Info", MB_OK);
+            return 0;
 
-case IDC_BTN_CANCEL:
-DestroyWindow(hwnd);
-return 0;
-}
-break;
+        case IDC_BTN_CANCEL:
+            DestroyWindow(hwnd);
+            return 0;
+        }
+        break;
 
-case WM_DESTROY:
-PostQuitMessage(0);
-return 0;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
 }
 return DefWindowProcW(hwnd, msg, wParam, 0);
 }
