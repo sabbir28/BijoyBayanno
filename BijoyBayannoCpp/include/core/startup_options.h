@@ -12,5 +12,6 @@ struct StartupOptions {
 };
 
 StartupOptions LoadStartupOptions();
+bool SaveStartupOptions(const StartupOptions& options);
 
 } // namespace bijoy::core

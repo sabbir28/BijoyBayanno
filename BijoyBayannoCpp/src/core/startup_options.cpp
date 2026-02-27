@@ -44,4 +44,45 @@ StartupOptions LoadStartupOptions() {
   return options;
 }
 
+bool SaveStartupOptions(const StartupOptions& options) {
+  HKEY key = nullptr;
+  DWORD disposition = 0;
+  const LONG createStatus = RegCreateKeyExW(
+      HKEY_CURRENT_USER,
+      kOptionsKey,
+      0,
+      nullptr,
+      REG_OPTION_NON_VOLATILE,
+      KEY_WRITE,
+      nullptr,
+      &key,
+      &disposition);
+  (void)disposition;
+
+  if (createStatus != ERROR_SUCCESS) {
+    return false;
+  }
+
+  const auto writeDword = [key](const wchar_t* valueName, DWORD value) {
+    return RegSetValueExW(
+               key,
+               valueName,
+               0,
+               REG_DWORD,
+               reinterpret_cast<const BYTE*>(&value),
+               sizeof(value)) == ERROR_SUCCESS;
+  };
+
+  const bool success =
+      writeDword(L"DefaultLayout", static_cast<DWORD>(options.defaultLayout)) &&
+      writeDword(L"Position", static_cast<DWORD>(options.mainWindowLeft)) &&
+      writeDword(L"Top", static_cast<DWORD>(options.mainWindowTop)) &&
+      writeDword(L"LAM", options.layoutActivationMode ? 1U : 0U) &&
+      writeDword(L"TrayMode", options.trayMode ? 1U : 0U) &&
+      writeDword(L"ApplicationMode", static_cast<DWORD>(options.applicationMode));
+
+  RegCloseKey(key);
+  return success;
+}
+
 } // namespace bijoy::core
