@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="BijoyBayanno"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\BijoyBayannoCpp\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="BijoyBayanno">
+				<Option output="D:/Progect/BijoyBayanno/build/bin/BijoyBayanno.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp"/>
+				<Option object_output="./"/>
+				<Option type="0"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUNICODE"/>
+					<Add option="-D_UNICODE"/>
+					<Add option="-DBIJOY_DATA_DIR=L&quot;D:/Progect/BijoyBayanno/build/data/&quot;"/>
+					<Add directory="D:/Progect/BijoyBayanno/BijoyBayannoCpp/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 BijoyBayanno"/>
+					<CompileFile command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="BijoyBayanno/fast">
+				<Option output="D:/Progect/BijoyBayanno/build/bin/BijoyBayanno.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp"/>
+				<Option object_output="./"/>
+				<Option type="0"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DUNICODE"/>
+					<Add option="-D_UNICODE"/>
+					<Add option="-DBIJOY_DATA_DIR=L&quot;D:/Progect/BijoyBayanno/build/data/&quot;"/>
+					<Add directory="D:/Progect/BijoyBayanno/BijoyBayannoCpp/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 BijoyBayanno/fast"/>
+					<CompileFile command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/Program/mingw64/bin/mingw32-make.exe -f &quot;D:/Progect/BijoyBayanno/cmake-build-debug/BijoyBayannoCpp/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/app/main.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/core/app_state.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/core/keyboard_hook_service.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/core/layout.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/core/layout_discovery.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/core/startup_options.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/core/window_layout_binding.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/platform/windows/app.rc">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/platform/windows/main_window.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/platform/windows/native_input.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/platform/windows/registration_dialog.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/platform/windows/splash_screen.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/src/utils/system_utils.cpp">
+			<Option target="BijoyBayanno"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="D:/Progect/BijoyBayanno/BijoyBayannoCpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\BijoyBayannoCpp\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
