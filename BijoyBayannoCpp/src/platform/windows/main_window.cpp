@@ -99,14 +99,20 @@ HICON LoadIconFromPath(const std::wstring& path, int width, int height) {
 
 HICON LoadAppIconFromData(int width, int height) {
   const std::wstring appDir = bijoy::core::GetAppDirectory();
+  const std::wstring candidates[] = {
+      BuildPath(appDir, L"data\\Icons\\Bijoy.ico"),
+      BuildPath(appDir, L"..\\data\\Icons\\Bijoy.ico"),
+      BuildPath(appDir, L"data\\Bijoy.ico"),
+      BuildPath(appDir, L"..\\data\\Bijoy.ico"),
+      BuildPath(appDir, L"Bijoy.ico")};
 
-  const std::wstring binIconPath = BuildPath(appDir, L"Bijoy.ico");
-  if (HICON icon = LoadIconFromPath(binIconPath, width, height)) {
-    return icon;
+  for (const auto& candidate : candidates) {
+    if (HICON icon = LoadIconFromPath(candidate, width, height)) {
+      return icon;
+    }
   }
 
-  const std::wstring dataIconPath = BuildPath(appDir, L"..\\data\\Bijoy.ico");
-  return LoadIconFromPath(dataIconPath, width, height);
+  return nullptr;
 }
 
 HICON LoadLayoutIcon(const bijoy::core::Layout* layout) {
@@ -164,10 +170,9 @@ void ReleaseBackgroundBitmap() {
 std::wstring ResolveBackgroundImagePath() {
   const std::wstring appDir = bijoy::core::GetAppDirectory();
   const std::wstring candidates[] = {
-      BuildPath(appDir, L"Bann2011.jpg"),
+      BuildPath(appDir, L"data\\Bann2011.jpg"),
       BuildPath(appDir, L"..\\data\\Bann2011.jpg"),
-      BuildPath(appDir, L"..\\deta\\Bann2011.jpg")
-  };
+      BuildPath(appDir, L"Bann2011.jpg")};
 
   for (const auto& candidate : candidates) {
     if (GetFileAttributesW(candidate.c_str()) != INVALID_FILE_ATTRIBUTES) {
