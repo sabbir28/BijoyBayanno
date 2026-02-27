@@ -68,7 +68,7 @@ int WINAPI wWinMain(
     if (!bijoy::core::FindLayouts(bijoy::core::g_layouts, appDir)) {
         MessageBoxW(
                 nullptr,
-                L"'Layouts' folder not found or no XML files.",
+                L"No layout XML files found. Expected paths include data\\layout.",
                 L"Bijoy Bayanno",
                 MB_OK | MB_ICONERROR);
         return 1;
@@ -129,6 +129,11 @@ int WINAPI wWinMain(
             // Phase 1: Load persisted startup configuration
             [startupOptions]() {
                 *startupOptions = bijoy::core::LoadStartupOptions();
+
+                // Restore window position, keeping the bar pinned to the top edge.
+                bijoy::platform::windows::SetMainWindowInitialPosition(
+                        startupOptions->mainWindowLeft,
+                        startupOptions->mainWindowTop);
 
                 // Apply default keyboard layout if valid
                 if (startupOptions->defaultLayout >= 0 &&

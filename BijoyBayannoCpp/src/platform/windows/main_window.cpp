@@ -9,6 +9,7 @@
 #include <shellapi.h>
 #include <string>
 #include <windows.h>
+#include <windowsx.h>
 
 #ifdef _MSC_VER
 #pragma comment(lib, "comctl32.lib")
@@ -40,6 +41,30 @@ HICON g_layoutDisplayIcon = nullptr;
 HICON g_windowClassIconLarge = nullptr;
 HICON g_windowClassIconSmall = nullptr;
 bool g_ownsDefaultIcon = false;
+int g_requestedWindowTop = 0;
+
+constexpr int kForcedTopY = 0;
+
+void SnapWindowToTop(HWND hwnd) {
+  if (!hwnd) {
+    return;
+  }
+
+  RECT windowRect = {};
+  if (!GetWindowRect(hwnd, &windowRect)) {
+    return;
+  }
+
+  SetWindowPos(
+      hwnd,
+      nullptr,
+      windowRect.left,
+      kForcedTopY,
+      0,
+      0,
+      SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
 
 std::wstring BuildPath(const std::wstring& base, const wchar_t* relative) {
   std::wstring path = base;
@@ -417,6 +442,31 @@ LRESULT CALLBACK MainWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
       }
       return 0;
 
+    case WM_LBUTTONDOWN: {
+      const POINT cursorPoint = {GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam)};
+      HWND childAtPoint = ChildWindowFromPointEx(hwnd, cursorPoint, CWP_SKIPINVISIBLE | CWP_SKIPDISABLED);
+      if (!childAtPoint || childAtPoint == hwnd) {
+        ReleaseCapture();
+        SendMessageW(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, 0);
+        return 0;
+      }
+      break;
+    }
+
+    case WM_WINDOWPOSCHANGING: {
+      auto* windowPos = reinterpret_cast<WINDOWPOS*>(lParam);
+      if (windowPos != nullptr && (windowPos->flags & SWP_NOMOVE) == 0) {
+        if (windowPos->y > 1) {
+          windowPos->y = kForcedTopY;
+        }
+      }
+      break;
+    }
+
+    case WM_EXITSIZEMOVE:
+      SnapWindowToTop(hwnd);
+      return 0;
+
     case WM_CLOSE:
       SetMainWindowVisible(false);
       return 0;
@@ -475,7 +525,7 @@ HWND CreateMainWindow(HINSTANCE hInstance) {
       L"Bijoy Bayanno",
       WS_POPUPWINDOW,
       CW_USEDEFAULT,
-      80,
+      g_requestedWindowTop,
       440,
       40,
       nullptr,
@@ -484,6 +534,22 @@ HWND CreateMainWindow(HINSTANCE hInstance) {
       nullptr);
 
   return g_mainWindow;
+}
+
+void SetMainWindowInitialPosition(int left, int top) {
+  g_requestedWindowTop = (top <= 1) ? top : kForcedTopY;
+
+  if (g_mainWindow) {
+    const int targetLeft = left >= 0 ? left : 0;
+    SetWindowPos(
+        g_mainWindow,
+        nullptr,
+        targetLeft,
+        g_requestedWindowTop,
+        0,
+        0,
+        SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+  }
 }
 
 } // namespace bijoy::platform::windows

@@ -35,6 +35,7 @@ StartupOptions LoadStartupOptions() {
 
   options.defaultLayout = ReadDwordValue(key, L"DefaultLayout", options.defaultLayout);
   options.mainWindowLeft = ReadDwordValue(key, L"Position", options.mainWindowLeft);
+  options.mainWindowTop = ReadDwordValue(key, L"Top", options.mainWindowTop);
   options.layoutActivationMode = ReadBoolValue(key, L"LAM", options.layoutActivationMode);
   options.trayMode = ReadBoolValue(key, L"TrayMode", options.trayMode);
   options.applicationMode = ReadDwordValue(key, L"ApplicationMode", options.applicationMode);
