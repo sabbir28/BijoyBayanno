@@ -190,8 +190,10 @@ void LoadBackgroundBitmapForWindow(HWND hwnd) {
     return;
   }
 
-  const int clientWidth = std::max(1, clientRect.right - clientRect.left);
-  const int clientHeight = std::max(1, clientRect.bottom - clientRect.top);
+  const LONG clientWidthLong = std::max<LONG>(1, clientRect.right - clientRect.left);
+  const LONG clientHeightLong = std::max<LONG>(1, clientRect.bottom - clientRect.top);
+  const int clientWidth = static_cast<int>(clientWidthLong);
+  const int clientHeight = static_cast<int>(clientHeightLong);
 
   const std::wstring imagePath = ResolveBackgroundImagePath();
   if (imagePath.empty()) {
